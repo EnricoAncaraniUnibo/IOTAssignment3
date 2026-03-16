@@ -1,6 +1,7 @@
-#ifndef __SCHEDULER__
-#define __SCHEDULER__
+#ifndef __SCHEDULER_ESP__
+#define __SCHEDULER_ESP__
 
+#include <Ticker.h>
 #include "Task.h"
 
 #define MAX_TASKS 50
