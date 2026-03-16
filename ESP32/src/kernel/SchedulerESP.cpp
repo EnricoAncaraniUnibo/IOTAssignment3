@@ -9,7 +9,7 @@ void timerHandler(void){
 void Scheduler::init(int basePeriod){
   this->basePeriod = basePeriod;
   timerFlag = false;
-  timer.attach_ms(basePeriod, timerHandler);
+  timer->attach_ms(basePeriod, timerHandler);
   nTasks = 0;
 }
 
