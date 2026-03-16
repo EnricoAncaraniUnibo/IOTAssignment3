@@ -1,5 +1,4 @@
 #include "SchedulerESP.h"
-#include <Ticker.h>
 
 volatile bool timerFlag;
 
