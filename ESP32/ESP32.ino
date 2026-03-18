@@ -38,6 +38,7 @@ void loop() {
   snprintf (msg, MSG_BUFFER_SIZE, "#%f", CheckingWater->getLastDistance());
   client.publish(topic, msg);  
   Serial.println(String(msg));
+  delay(1000);
 }
 
 void reconnect() {
@@ -47,11 +48,13 @@ void reconnect() {
     String clientId = String("assignment3-client-")+String(random(0xffff), HEX);
 
     if (client.connect(clientId.c_str())) {
+      Serial.println("Connected");
       esp->setState(ON);
       p->getRedLed()->switchOff();
       p->getGreenLed()->switchOn();
     } else {
       delay(5000);
+      Serial.println("Riprovo");
     }
   }
 }
