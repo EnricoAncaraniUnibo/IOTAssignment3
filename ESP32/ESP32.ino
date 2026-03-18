@@ -8,7 +8,6 @@ Platform* p;
 Esp32* esp;
 
 void setup() {
-  Serial.begin(115200);
   p = new Platform();
   esp=new Esp32();
   p->getRedLed()->switchOn();
@@ -25,7 +24,6 @@ void waterTaskWrapper(void* param) {
   while(true) {
     if(esp->getState()==ON){
       CheckingWater->tick();
-      Serial.println(CheckingWater->getLastDistance());
     }
     vTaskDelay(1000);
   }
