@@ -12,6 +12,8 @@ void setup() {
   p=new Platform();
   esp = new Esp32();
   checkingWaterTask = new CheckingWaterLevelTask(p->getSonar());
+  sched.addTask(checkingWaterTask);
+  p->getRedLed()->switchOn();
 }
 
 void loop() {

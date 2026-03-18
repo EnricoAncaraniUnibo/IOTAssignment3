@@ -13,3 +13,7 @@ void CheckingWaterLevelTask::tick(){
   float d = sonar->getDistance();
   lastDistance = d;
 }
+
+long CheckingWaterLevelTask::getLastDistance(){
+  return this->lastDistance;
+}

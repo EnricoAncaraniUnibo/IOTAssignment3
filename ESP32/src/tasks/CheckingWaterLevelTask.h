@@ -11,6 +11,7 @@ public:
   CheckingWaterLevelTask(Sonar* sonar);
   void tick();
   void init();
+  long getLastDistance();
 
 private:
   Sonar* sonar;
