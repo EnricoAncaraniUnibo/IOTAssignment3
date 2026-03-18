@@ -33,6 +33,7 @@ void loop() {
     p->getRedLed()->switchOn();
     p->getGreenLed()->switchOff();
     reconnect();
+    return;
   }
   char msg[MSG_BUFFER_SIZE];
   snprintf (msg, MSG_BUFFER_SIZE, "#%f", CheckingWater->getLastDistance());
