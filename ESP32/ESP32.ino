@@ -5,9 +5,12 @@
 TaskHandle_t CheckingWaterTask;
 CheckingWaterLevelTask* CheckingWater;
 Platform* p;
+Esp32* esp;
 
 void setup() {
+  Serial.begin(115200);
   p = new Platform();
+  esp=new Esp32();
   p->getRedLed()->switchOn();
   p->getGreenLed()->switchOff();
   CheckingWater = new CheckingWaterLevelTask(p->getSonar());
@@ -20,7 +23,10 @@ void loop() {
 
 void waterTaskWrapper(void* param) {
   while(true) {
-    CheckingWater->tick();
+    if(esp->getState()==ON){
+      CheckingWater->tick();
+      Serial.println(CheckingWater->getLastDistance());
+    }
     vTaskDelay(1000);
   }
 }
