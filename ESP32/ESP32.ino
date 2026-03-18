@@ -33,13 +33,14 @@ void loop() {
     p->getRedLed()->switchOn();
     p->getGreenLed()->switchOff();
     reconnect();
-    return;
+  }else{
+    char msg[MSG_BUFFER_SIZE];
+    snprintf (msg, MSG_BUFFER_SIZE, "#%f", CheckingWater->getLastDistance());
+    client.publish(topic, msg);  
+    Serial.println(String(msg));
+    delay(1000);
   }
-  char msg[MSG_BUFFER_SIZE];
-  snprintf (msg, MSG_BUFFER_SIZE, "#%f", CheckingWater->getLastDistance());
-  client.publish(topic, msg);  
-  Serial.println(String(msg));
-  delay(1000);
+  
 }
 
 void reconnect() {
