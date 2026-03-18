@@ -44,7 +44,13 @@ void loop() {
 void reconnect() {
   
   while (!client.connected()) {
-    
+    if (WiFi.status() != WL_CONNECTED) {
+      WiFi.begin(ssid, password);
+      while (WiFi.status() != WL_CONNECTED) {
+        delay(500);
+        Serial.print(".");
+      }
+    }
     String clientId = String("assignment3-client-")+String(random(0xffff), HEX);
 
     if (client.connect(clientId.c_str())) {
