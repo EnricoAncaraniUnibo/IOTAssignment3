@@ -1,0 +1,2 @@
+Rimuovere il callback da esp
+rimuovere il serial da esp
