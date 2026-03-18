@@ -37,6 +37,7 @@ void loop() {
   char msg[MSG_BUFFER_SIZE];
   snprintf (msg, MSG_BUFFER_SIZE, "#%f", CheckingWater->getLastDistance());
   client.publish(topic, msg);  
+  Serial.println(String(msg));
 }
 
 void reconnect() {
