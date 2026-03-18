@@ -14,6 +14,6 @@ void CheckingWaterLevelTask::tick(){
   lastDistance = d;
 }
 
-long CheckingWaterLevelTask::getLastDistance(){
-  return this->lastDistance;
+float CheckingWaterLevelTask::getLastDistance(){
+  return lastDistance;
 }
