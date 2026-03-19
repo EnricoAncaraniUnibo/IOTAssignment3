@@ -6,6 +6,7 @@ CommunicationTask::CommunicationTask(System* sy) {
 }
 
 void CommunicationTask::init() {
+    system->setOpening(0);
     setActive(true);
 }
 
