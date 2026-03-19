@@ -1,4 +1,4 @@
-package esiot.mqtt;
+
 
 import org.eclipse.paho.client.mqttv3.*;
 
@@ -12,10 +12,12 @@ import org.eclipse.paho.client.mqttv3.*;
 
 public class SimpleSubscriber {
 
-    public static void main(String[] args) throws Exception {
+    Controller controller;
+    public void start(Controller con) throws Exception {
+        controller = con;
         String broker = "tcp://broker.mqtt-dashboard.com";
-        String clientId = "esiot-2025-" + System.currentTimeMillis();
-        String topic = "esiot-2025";
+        String clientId = "assignment3-" + System.currentTimeMillis();
+        String topic = "MSG";
 
         MqttClient client = new MqttClient(broker, clientId);
 
@@ -23,13 +25,12 @@ public class SimpleSubscriber {
         client.setCallback(new MqttCallback() {
             @Override
             public void connectionLost(Throwable cause) {
-                System.out.println("Connection lost! " + cause.getMessage());
+                controller.loseConnection();
             }
 
             @Override
             public void messageArrived(String topic, MqttMessage message) {
-                System.out.println("Received message on topic " + topic + ": "
-                        + new String(message.getPayload()));
+                controller.manageMessage(new String(message.getPayload()));
             }
 
             @Override
@@ -39,6 +40,12 @@ public class SimpleSubscriber {
         });
 
         client.connect();
+        if (client.isConnected()) {
+            controller.onConnected();
+        } else {
+            System.out.println("Connessione fallita!");
+            controller.loseConnection();
+        }
         
         
         /*
