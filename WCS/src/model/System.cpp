@@ -1,21 +1,13 @@
-#include "Hangar.h"
+#include "System.h"
 
-Hangar::Hangar(){
-  currentState = DRONE_INSIDE;
+System::System(){
+  opening=0;
 }
 
-HangarState Hangar::getState(){
-  return this->currentState;
+int System::getOpening(){
+  return opening;
 }
 
-void Hangar::setState(HangarState s){
-  currentState = s;
-}
-
-void Hangar::setBackUp(HangarState s){
-  backupState = s;
-}
-
-HangarState Hangar::getBackUp(){
-  return this->backupState;
+void System::setOpening(int n){
+  opening = n;
 }

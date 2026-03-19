@@ -6,13 +6,11 @@ class System {
 public:
   System();
 
-  HangarState getState();
-  void setState(HangarState s);
-  void setBackUp(HangarState s);
-  HangarState getBackUp();
+  int getOpening();
+  void setOpening(int n);
 
 private:
-  char* currentState;
+  int opening;
 };
 
 #endif
