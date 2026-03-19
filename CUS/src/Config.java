@@ -5,4 +5,6 @@ public class Config {
 
     public static final long T1 = 5000;  
     public static final long T2 = 10000; 
+    
+    public static final String Port = "COM3"; 
 }

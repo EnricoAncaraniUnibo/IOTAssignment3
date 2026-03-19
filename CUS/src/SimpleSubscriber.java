@@ -58,10 +58,5 @@ public class SimpleSubscriber {
         client.subscribe(topic, 1);
 
         System.out.println("Subscribed to topic: " + topic);
-
-        // Keep the program running to listen for messages
-        Thread.sleep(60000);
-        client.disconnect();
-        client.close();
     }
 }
