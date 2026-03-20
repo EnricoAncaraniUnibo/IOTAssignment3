@@ -12,10 +12,12 @@ class Platform {
   Platform();
   ServoTimer2* getServo();
   Potentiometer* getPot();
+  LiquidCrystal_I2C* getLCD();
   
   private:
   ServoTimer2* servo;
   Potentiometer* pot;
+  LiquidCrystal_I2C* lcd;
 };
 
 #endif

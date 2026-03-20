@@ -30,6 +30,7 @@ public class SimpleSubscriber {
 
             @Override
             public void messageArrived(String topic, MqttMessage message) {
+                System.out.println(new String(message.getPayload()));
                 controller.manageMessage(new String(message.getPayload()));
             }
 

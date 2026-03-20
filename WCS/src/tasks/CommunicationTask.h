@@ -5,6 +5,7 @@
 #include "../model/Platform.h"
 #include "../kernel/MsgService.h"
 #include "../model/SystemState.h"
+#include "../devices/ServoTimer2.h"
 
 class CommunicationTask : public Task {
 public:
