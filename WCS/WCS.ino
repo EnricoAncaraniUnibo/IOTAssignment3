@@ -17,13 +17,13 @@ void setup() {
   p = new Platform();
   sy = new SystemState();
   com=new CommunicationTask(sy);
-  //swTask = new SweepingTask(p->getServo(),sy);
+  swTask = new SweepingTask(p->getServo(),sy);
   //cp = new CheckingPotTask(p->getPot(),sy);
   sched.addTask(com);
-  //sched.addTask(swTask);
+  sched.addTask(swTask);
   //sched.addTask(cp);
   com->init();
-  //swTask->init();
+  swTask->init();
   p->getLCD()->init();
   p->getLCD()->backlight();
 }
