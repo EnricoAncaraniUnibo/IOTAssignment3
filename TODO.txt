@@ -1,2 +1,0 @@
-rimuovere il serial da esp
-Togliere i messaggi dal cus
