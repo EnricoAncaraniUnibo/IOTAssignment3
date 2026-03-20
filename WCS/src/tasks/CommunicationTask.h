@@ -1,19 +1,19 @@
-#ifndef COMMUNICATION_TASK_H
-#define COMMUNICATION_TASK_H
+#ifndef __COMMUNICATION_TASK__
+#define __COMMUNICATION_TASK__
 
 #include "../kernel/Task.h"
 #include "../model/Platform.h"
-#include "MsgService.h"
-#include "System.h"
+#include "../kernel/MsgService.h"
+#include "../model/SystemState.h"
 
 class CommunicationTask : public Task {
 public:
-    CommunicationTask(System* sy);
+    CommunicationTask(SystemState* sy);
     void init();
     void tick();
 
 private:
-    System* system;
+    SystemState* system;
 };
 
 #endif

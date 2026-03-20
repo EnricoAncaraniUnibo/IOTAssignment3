@@ -1,7 +1,6 @@
-// CommunicationTask.cpp
 #include "CommunicationTask.h"
 
-CommunicationTask::CommunicationTask(System* sy) {
+CommunicationTask::CommunicationTask(SystemState* sy) {
     system = sy;
 }
 
