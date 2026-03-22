@@ -30,7 +30,6 @@ public class SimpleSubscriber {
 
             @Override
             public void messageArrived(String topic, MqttMessage message) {
-                System.out.println(new String(message.getPayload()));
                 controller.manageMessage(new String(message.getPayload()));
             }
 
@@ -42,7 +41,7 @@ public class SimpleSubscriber {
 
         client.connect();
         if (client.isConnected()) {
-            controller.onConnected();
+            controller.automatic();
         } else {
             System.out.println("Connessione fallita!");
             controller.loseConnection();

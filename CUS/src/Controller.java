@@ -21,6 +21,7 @@ public class Controller {
         Controller controller = new Controller();
         SimpleSubscriber sub = new SimpleSubscriber();
         sub.start(controller);
+        new MonitoringAgent(controller.channel,controller).start();
     }
 
     public void loseConnection() {
@@ -30,6 +31,7 @@ public class Controller {
 
     public void manageMessage(String string) {
         if(state==State.AUTOMATIC) {
+            System.out.println(string);
             float value = Float.parseFloat(string);
             if(value>Config.L2) {
                 channel.sendMsg(CMD_OPEN);
@@ -52,8 +54,13 @@ public class Controller {
         }
     }
 
-    public void onConnected() {
-       state = State.AUTOMATIC;
+    public void automatic() {
+        state = State.AUTOMATIC;
+        
+    }
+
+    public void manual() {
+        state = State.MANUAL;
         
     }
 }

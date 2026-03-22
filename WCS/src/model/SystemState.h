@@ -3,7 +3,8 @@
 
 enum SystemActualState {
   AUTOMATIC,
-  MANUAL
+  MANUAL,
+  UNCONNECTED
 };
 
 class SystemState {

@@ -5,6 +5,9 @@
 #include "src/tasks/CheckingPotTask.h"
 #include <EnableInterrupt.h>
 
+#define DEBOUNCE_MS 200
+unsigned long lastPress = 0;
+
 Scheduler sched;
 Platform* p;
 SystemState* sy;
@@ -35,11 +38,16 @@ void loop() {
 }
 
 void changeState(){
+  unsigned long now = millis();
+  if (now - lastPress < DEBOUNCE_MS) return;
+  lastPress = now;
   if(sy->getState()==AUTOMATIC){
     sy->setState(MANUAL);
     cp->setActive(true);
+    MsgService.sendMsg("MANUAL");
   }else{
     sy->setState(AUTOMATIC);
     cp->setActive(false);
+    MsgService.sendMsg("AUTOMATIC");
   }
 }
