@@ -3,6 +3,7 @@
 #include "src/tasks/CommunicationTask.h"
 #include "src/tasks/SweepingTask.h"
 #include "src/tasks/CheckingPotTask.h"
+#include <EnableInterrupt.h>
 
 Scheduler sched;
 Platform* p;
@@ -16,12 +17,13 @@ void setup() {
   sched.init(50);
   p = new Platform();
   sy = new SystemState();
+  enableInterrupt(BUTTON_PIN,changeState,RISING);
   com=new CommunicationTask(sy);
   swTask = new SweepingTask(p->getServo(),sy);
-  //cp = new CheckingPotTask(p->getPot(),sy);
+  cp = new CheckingPotTask(p->getPot(),sy);
   sched.addTask(com);
   sched.addTask(swTask);
-  //sched.addTask(cp);
+  sched.addTask(cp);
   com->init();
   swTask->init();
   p->getLCD()->init();
@@ -30,4 +32,14 @@ void setup() {
 
 void loop() {
   sched.schedule();
+}
+
+void changeState(){
+  if(sy->getState()==AUTOMATIC){
+    sy->setState(MANUAL);
+    cp->setActive(true);
+  }else{
+    sy->setState(AUTOMATIC);
+    cp->setActive(false);
+  }
 }
