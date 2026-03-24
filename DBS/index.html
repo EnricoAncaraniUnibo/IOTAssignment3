@@ -66,7 +66,12 @@
                 const slider = document.getElementById('v-slider');
                 slider.value = data.valveValue;
 
-            } catch(e) { console.error("Errore fetch dati:", e); }
+            } catch(e) {
+                document.getElementById('status-badge').innerText = 'NOT AVAILABLE';
+                document.getElementById('status-badge').className = 'status-badge UNCONNECTED';
+                document.getElementById('w-level').innerText = '--';
+                document.getElementById('v-value').innerText = '--';
+            }
         }
 
         async function sendState(s) {

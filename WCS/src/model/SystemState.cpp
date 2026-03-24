@@ -4,6 +4,7 @@
 SystemState::SystemState(){
   state = AUTOMATIC;
   opening=0;
+  lastOpening=-1;
 }
 
 int SystemState::getOpening(){
@@ -23,4 +24,12 @@ SystemActualState SystemState::getState(){
 
 void SystemState::setState(SystemActualState s){
   state = s;
+}
+
+int SystemState::getLastOpening(){
+  return lastOpening;
+}
+
+void SystemState::setLastOpening(int n){
+  lastOpening = n;
 }

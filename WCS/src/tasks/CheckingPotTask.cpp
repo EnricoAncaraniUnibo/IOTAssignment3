@@ -1,5 +1,7 @@
 #include "CheckingPotTask.h"
 
+extern bool updateOpening;
+
 CheckingPotTask::CheckingPotTask(Potentiometer* pot, SystemState* sy){
   potentiometer = pot;
   system = sy;
@@ -8,5 +10,15 @@ CheckingPotTask::CheckingPotTask(Potentiometer* pot, SystemState* sy){
 
 void CheckingPotTask::tick(){
   potentiometer->sync();
-  system->setOpening(potentiometer->getValue()*100);
+  int currentPotPos = (int)(potentiometer->getValue() * 100);
+  if(updateOpening==true){
+    system->setOpening(currentPotPos);
+  }else{
+    if(abs(currentPotPos - system->getLastOpening()) > 10) {
+      updateOpening = true;
+      system->setOpening(currentPotPos);
+      system->setLastOpening(-1);
+    }
+  }
+  
 }

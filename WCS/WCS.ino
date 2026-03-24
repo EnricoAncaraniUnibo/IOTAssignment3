@@ -10,6 +10,8 @@ unsigned long lastPress = 0;
 long lastValue=0;
 SystemActualState lastState=AUTOMATIC;
 
+bool updateOpening = true;
+
 Scheduler sched;
 Platform* p;
 SystemState* sy;
@@ -37,6 +39,12 @@ void setup() {
 
 void loop() {
   sched.schedule();
+  if(sy->getState() == MANUAL){
+    cp->setActive(true);
+  }
+  if(sy->getState() == AUTOMATIC){
+    cp->setActive(false);
+  }
   updateLCD();
 }
 

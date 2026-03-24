@@ -56,9 +56,9 @@ public class DataService extends AbstractVerticle {
 		} else {
 			String state = res.getString("state");
 			if (state.equals("AUTOMATIC")) {
-                controller.automatic();
+                controller.pushAutomatic();
             } else if (state.equals("MANUAL")) {
-                controller.manual();
+                controller.pushManual();
             }
 			response.setStatusCode(200).end();
 		}
@@ -83,7 +83,7 @@ public class DataService extends AbstractVerticle {
         int value = body.getInteger("valve");
         
         if (controller.state == Controller.State.MANUAL) {
-            controller.setValve(value);
+            controller.pushValve(value);
             routingContext.response().setStatusCode(200).end();
         } else {
             routingContext.response().setStatusCode(403).end("Not in Manual Mode");
