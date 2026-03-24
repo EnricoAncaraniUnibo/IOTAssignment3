@@ -7,6 +7,7 @@ public class Controller {
     static final String CMD_HALF    = "cmd:HALF";
     static final String ST_UNCON    = "st:UNCONNECTED";
     static final String ST_MANUAL    = "st:MANUAL";
+    static final String ST_AUTO   = "st:AUTO";
 
     public enum State {
         AUTOMATIC, MANUAL, UNCONNECTED
@@ -100,17 +101,13 @@ public class Controller {
     }
 
     public void pushAutomatic() {
-        if(state!=State.UNCONNECTED) {
-            automatic();
-            channel.sendMsg(CMD_CLOSE);
-        }
+        automatic();
+        channel.sendMsg(ST_AUTO);
     }
 
     public void pushManual() {
-        if(state!=State.UNCONNECTED) {
-            manual();
-            channel.sendMsg(ST_MANUAL);
-        }
+        manual();
+        channel.sendMsg(ST_MANUAL);
     }
 
     public void pushValve(int value) {

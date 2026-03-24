@@ -29,6 +29,8 @@ void CommunicationTask::tick() {
             system->setState(UNCONNECTED);
         } else if (content == "st:MANUAL") {
             system->setState(MANUAL);
+        } else if (content == "st:AUTO") {
+            system->setState(AUTOMATIC);
         } else {
             if(system->getLastOpening()==-1){
                 system->setLastOpening(system->getOpening());
