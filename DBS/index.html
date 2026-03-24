@@ -12,6 +12,7 @@
         .MANUAL { background: #fff3e0; color: #f57c00; }
         .UNCONNECTED { background: #ffebee; color: #d32f2f; }
         .value { font-size: 2em; font-weight: bold; }
+        .graph {width: 1000px !important; height: 500px !important;}
     </style>
 </head>
 <body>
@@ -29,7 +30,7 @@
     </div>
 
     <div class="card">
-        <canvas id="myChart"></canvas>
+        <canvas id="myChart" class="graph"></canvas>
     </div>
 
     <script>
@@ -61,8 +62,9 @@
                 chart.data.datasets[0].data = data.waterLevels.slice().reverse();
                 chart.update();
 
-                // Disabilita slider se non Manuale
                 document.getElementById('v-slider').disabled = (data.state !== 'MANUAL');
+                const slider = document.getElementById('v-slider');
+                slider.value = data.valveValue;
 
             } catch(e) { console.error("Errore fetch dati:", e); }
         }
