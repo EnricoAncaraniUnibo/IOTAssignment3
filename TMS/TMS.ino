@@ -57,7 +57,7 @@ void reconnect() {
       p->getRedLed()->switchOff();
       p->getGreenLed()->switchOn();
     } else {
-      delay(5000);
+      delay(1000);
     }
   }
 }
