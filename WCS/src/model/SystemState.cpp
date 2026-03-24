@@ -1,4 +1,5 @@
 #include "SystemState.h"
+#include "../kernel/MsgService.h"
 
 SystemState::SystemState(){
   state = AUTOMATIC;
@@ -10,6 +11,9 @@ int SystemState::getOpening(){
 }
 
 void SystemState::setOpening(int n){
+  if(n!=opening){
+    MsgService.sendMsg(String(n));
+  }
   opening = n;
 }
 

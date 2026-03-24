@@ -29,6 +29,7 @@ public class DataService extends AbstractVerticle {
 	public void start() {		
 		Router router = Router.router(vertx);
 		router.route().handler(BodyHandler.create());
+		router.route("/*").handler(io.vertx.ext.web.handler.StaticHandler.create("../DBS"));
 		router.get("/api/data").handler(this::handleGetData);
 		router.post("/api/state").handler(this::handleChangeMode);
 		router.post("/api/valve").handler(this::handleSetValve);
@@ -66,7 +67,7 @@ public class DataService extends AbstractVerticle {
 	private void handleGetData(RoutingContext routingContext) {
 		JsonObject obj = new JsonObject();
 		obj.put("state", controller.state.toString());
-		obj.put("valveValue", controller.valveValue);
+		obj.put("valveValue", controller.valve);
 		JsonArray arr = new JsonArray();
 		for (Double d: waterLevels) {
 			arr.add(d);

@@ -11,10 +11,12 @@ public class Controller {
         AUTOMATIC, MANUAL, UNCONNECTED
     }
     
+    int valve = 0;
     State state;
     SerialCommChannel channel;
     long startTime;
     long lastMsgTime = 0;
+    DataService service;
     
     public Controller() throws Exception {
         channel = new SerialCommChannel(Config.Port,115200);   
@@ -23,6 +25,9 @@ public class Controller {
     public static void main(String[] args) throws Exception {
         
         Controller controller = new Controller();
+        controller.service = new DataService(8080, controller);
+        Vertx vertx = Vertx.vertx();
+        vertx.deployVerticle(controller.service);
         SimpleSubscriber sub = new SimpleSubscriber();
         sub.start(controller);
         new MonitoringAgent(controller.channel,controller).start();
@@ -51,6 +56,7 @@ public class Controller {
     }
     
     public void manageMessage(String string) {
+        service.addWaterLevel(Float.parseFloat(string));
         if(state==State.UNCONNECTED) {
             automatic();
         }
@@ -86,5 +92,12 @@ public class Controller {
     public void manual() {
         state = State.MANUAL;
         
+    }
+
+    public void setValve(int value) {
+       valve = value; 
+       if (this.state == State.MANUAL) {
+           //da gestire
+       }
     }
 }

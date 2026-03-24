@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Smart Tank Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body { font-family: sans-serif; margin: 20px; background: #f4f4f9; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .status-badge { padding: 10px 20px; border-radius: 20px; font-weight: bold; display: inline-block; }
+        .AUTOMATIC { background: #e3f2fd; color: #1976d2; }
+        .MANUAL { background: #fff3e0; color: #f57c00; }
+        .UNCONNECTED { background: #ffebee; color: #d32f2f; }
+        .value { font-size: 2em; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h3>Stato: <span id="status-badge" class="status-badge">--</span></h3>
+        <button onclick="sendState('AUTOMATIC')">Automatico</button>
+        <button onclick="sendState('MANUAL')">Manuale</button>
+    </div>
+
+    <div class="card">
+        <h3>Livello Corrente: <span id="w-level" class="value">--</span> m</h3>
+        <h3>Apertura Valvola: <span id="v-value" class="value">--</span> %</h3>
+        <input type="range" id="v-slider" min="0" max="100" onchange="sendValve(this.value)">
+    </div>
+
+    <div class="card">
+        <canvas id="myChart"></canvas>
+    </div>
+
+    <script>
+        const ctx = document.getElementById('myChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: { 
+                labels: [1,2,3,4,5,6,7,8,9,10], 
+                datasets: [{ label: 'Livello Acqua', data: [], borderColor: 'blue', tension: 0.3 }] 
+            },
+            options: { animation: false, scales: { y: { min: 0, max: 2.5 } } }
+        });
+
+        async function update() {
+            try {
+                const res = await fetch('/api/data');
+                const data = await res.json();
+
+                document.getElementById('status-badge').innerText = data.state;
+                document.getElementById('status-badge').className = 'status-badge ' + data.state;
+                document.getElementById('v-value').innerText = data.valveValue;
+
+                if (data.waterLevels && data.waterLevels.length > 0) {
+                    document.getElementById('w-level').innerText = data.waterLevels[0].toFixed(3);
+                } else {
+                    document.getElementById('w-level').innerText = "0.000";
+                }
+
+                chart.data.datasets[0].data = data.waterLevels.slice().reverse();
+                chart.update();
+
+                // Disabilita slider se non Manuale
+                document.getElementById('v-slider').disabled = (data.state !== 'MANUAL');
+
+            } catch(e) { console.error("Errore fetch dati:", e); }
+        }
+
+        async function sendState(s) {
+            await fetch('/api/state', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ state: s })
+            });
+        }
+
+        async function sendValve(v) {
+            await fetch('/api/valve', {
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify({ valve: parseInt(v) })
+            });
+        }
+
+        setInterval(update, 1000);
+        update();
+    </script>
+</body>
+</html>

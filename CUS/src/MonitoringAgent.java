@@ -19,6 +19,13 @@ public class MonitoringAgent extends Thread {
                     con.automatic();
                 }else if(msg.equals("MANUAL")) {
                     con.manual();
+                }else {
+                    try {
+                        int value = Integer.parseInt(msg);
+                        con.setValve(value);
+                    }catch(Exception ex) {
+                        ex.printStackTrace();
+                    }
                 }
             } catch (InterruptedException e) {
                 e.printStackTrace();
