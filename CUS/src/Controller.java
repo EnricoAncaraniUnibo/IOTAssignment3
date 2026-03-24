@@ -12,7 +12,7 @@ public class Controller {
     }
     
     int valve = 0;
-    State state;
+    State state = State.AUTOMATIC;
     SerialCommChannel channel;
     long startTime;
     long lastMsgTime = 0;
