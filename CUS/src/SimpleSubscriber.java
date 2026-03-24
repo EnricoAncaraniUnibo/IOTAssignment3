@@ -25,7 +25,30 @@ public class SimpleSubscriber {
         client.setCallback(new MqttCallback() {
             @Override
             public void connectionLost(Throwable cause) {
-                controller.loseConnection();
+                if(controller.state==Controller.State.AUTOMATIC) {
+                    controller.loseConnection();
+                }
+                new Thread(() -> {
+                    while (!client.isConnected()) {
+                        try {
+                            System.out.println("Riconnessione...");
+                            client.connect();
+                            if (client.isConnected()) {
+                                client.subscribe(topic, 1);
+                                if(controller.state==Controller.State.UNCONNECTED) {
+                                    controller.automatic();
+                                }
+                                System.out.println("Riconnesso!");
+                            }
+                        } catch (Exception e) {
+                            try {
+                                Thread.sleep(5000);
+                            } catch (InterruptedException ex) {
+                                ex.printStackTrace();
+                            }
+                        }
+                    }
+                }).start();
             }
 
             @Override

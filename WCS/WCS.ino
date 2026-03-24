@@ -7,6 +7,8 @@
 
 #define DEBOUNCE_MS 200
 unsigned long lastPress = 0;
+long lastValue=0;
+SystemActualState lastState=AUTOMATIC;
 
 Scheduler sched;
 Platform* p;
@@ -35,13 +37,39 @@ void setup() {
 
 void loop() {
   sched.schedule();
+  updateLCD();
+}
+
+void updateLCD(){
+  if(lastValue!=sy->getOpening() || lastState!=sy->getState()){
+    lastState=sy->getState();
+    lastValue=sy->getOpening();
+    p->getLCD()->clear();
+    p->getLCD()->setCursor(1, 1);
+    p->getLCD()->print("Valve opening: ");
+    p->getLCD()->print(lastValue);
+    p->getLCD()->print("%");
+    p->getLCD()->setCursor(1, 2);
+    p->getLCD()->print("Mod: ");
+    switch(sy->getState()){
+    case AUTOMATIC:
+      p->getLCD()->print("AUTOMATIC");
+      break;
+    case MANUAL:
+      p->getLCD()->print("MANUAL");
+      break;
+    case UNCONNECTED:
+      p->getLCD()->print("UNCONNECTED");
+      break;
+    }
+  }
 }
 
 void changeState(){
   unsigned long now = millis();
   if (now - lastPress < DEBOUNCE_MS) return;
   lastPress = now;
-  if(sy->getState()==AUTOMATIC){
+  if(sy->getState()==AUTOMATIC || sy->getState()==UNCONNECTED){
     sy->setState(MANUAL);
     cp->setActive(true);
     MsgService.sendMsg("MANUAL");
