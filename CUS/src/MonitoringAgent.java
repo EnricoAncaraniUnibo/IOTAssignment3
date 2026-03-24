@@ -17,7 +17,7 @@ public class MonitoringAgent extends Thread {
                 System.out.println("Received from serial: " + msg);
                 if (msg.equals("AUTOMATIC")){
                     con.automatic();
-                }else {
+                }else if(msg.equals("MANUAL")) {
                     con.manual();
                 }
             } catch (InterruptedException e) {

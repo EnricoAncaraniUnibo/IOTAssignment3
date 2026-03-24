@@ -1,3 +1,5 @@
+import io.vertx.core.Vertx;
+
 public class Controller {
     
     static final String CMD_CLOSE = "cmd:CLOSE";
@@ -47,7 +49,7 @@ public class Controller {
            channel.sendMsg(ST_UNCON);
        }
     }
-
+    
     public void manageMessage(String string) {
         if(state==State.UNCONNECTED) {
             automatic();
